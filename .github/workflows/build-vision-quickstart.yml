@@ -22,11 +22,10 @@ jobs:
           java-version: 17
 
       - name: Make Gradle executable
-        run: chmod +x ./android/vision-quickstart/gradlew
+        run: chmod +x ./gradlew
 
       - name: Build debug APK
-        working-directory: ./android/vision-quickstart
-        run: ./gradlew assembleDebug
+        run: ./gradlew :android:vision-quickstart:app:assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
