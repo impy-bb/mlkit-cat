@@ -1,1 +1,35 @@
+name: Build Vision Quickstart APK
 
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Make Gradle executable
+        run: chmod +x ./android/vision-quickstart/gradlew
+
+      - name: Build debug APK
+        working-directory: ./android/vision-quickstart
+        run: ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: vision-quickstart-debug-apk
+          path: android/vision-quickstart/app/build/outputs/apk/debug/*.apk
